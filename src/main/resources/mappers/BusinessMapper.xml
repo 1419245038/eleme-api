@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.elemeapi.mapper.BusinessMapper">
+
+    <select id="getAllBusiness" resultType="business">
+        select * from business
+    </select>
+
+    <select id="getFoodByBusinessId" resultType="food" parameterType="Long">
+        select * from food where business_id=#{business_id}
+    </select>
+
+    <select id="getBusinessById" resultType="business" parameterType="Long">
+        select * from business where business_id=#{business_id}
+    </select>
+</mapper>

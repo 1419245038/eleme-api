@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.elemeapi.mapper.CartMapper">
+    
+    <insert id="addFoodToCart" parameterType="cart">
+        INSERT INTO `eleme`.`cart` (
+            `cart_id`,
+            `business_id`,
+            `food_id`,
+            `user_id`,
+            `food_num`,
+            `date`
+        )
+        VALUES
+            (
+                null,
+                #{businessId},
+                #{foodId},
+                #{userId},
+                #{foodNum},
+                #{datetime}
+            );
+    </insert>
+
+    <update id="updateFoodNum" parameterType="cart">
+        UPDATE `eleme`.`cart`
+        SET `food_num` = #{foodNum}
+        WHERE
+            `food_id` = #{foodId}
+            and
+            `user_id` = #{userId}
+
+    </update>
+
+    <delete id="removeFoodFromCart" parameterType="cart">
+        delete from cart where user_id=#{userId} and food_id=#{foodId}
+    </delete>
+
+    <delete id="clear" parameterType="cart">
+        delete from cart where user_id=#{userId} and business_id=#{businessId}
+    </delete>
+
+    <select id="getTotalFoodNumByUserId" parameterType="Long" resultType="map">
+        SELECT business_id,SUM(food_num) total_food_num FROM cart where user_id=#{user_id} GROUP BY(business_id)
+    </select>
+
+    <select id="getTotalFoodPriceByUserId" parameterType="Long" resultType="map">
+        SELECT
+            business_id,
+            sum( food_price * food_num ) as total_food_price
+        FROM
+            (
+                SELECT
+                    cart.business_id,
+                    cart.food_id,
+                    food_price,
+                    food_num
+                FROM
+                    cart,
+                    food
+                WHERE
+                    cart.food_id = food.food_id
+                  AND user_id = #{user_id}
+            ) AS temp
+        GROUP BY
+            business_id
+    </select>
+
+    <select id="getFoodNum" parameterType="cart" resultType="map">
+        SELECT
+            food_id,
+            food_num
+        FROM
+            cart
+        WHERE
+            user_id = #{userId}
+          AND business_id = #{businessId}
+    </select>
+
+    <select id="getFoodList" parameterType="cart" resultType="map">
+        SELECT
+            cart.business_id,
+            cart.food_id,
+            food_pic,
+            food_price,
+            food_name,
+            food_type,
+            food_num,
+            food_price*food_num as food_total_price
+        FROM
+            cart,
+            food
+        WHERE
+            food.food_id = cart.food_id
+          AND
+            user_id = #{userId}
+          AND
+            cart.business_id = #{businessId}
+    </select>
+
+</mapper>

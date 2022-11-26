@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.elemeapi.mapper.DeliveryAddressMapper">
+
+    <select id="getDeliveryAddressById" parameterType="Long" resultType="deliveryAddress">
+        select * from deliveryaddress where deliveryaddress_id=#{deliveryaddress_id}
+    </select>
+
+    <select id="getUsersAllAddressByUserId" parameterType="Long" resultType="deliveryAddress">
+        select * from deliveryaddress where user_id=#{user_id}
+    </select>
+
+    <select id="getUsersCommonlyUsedAddress" parameterType="Long" resultType="deliveryAddress">
+        select * from deliveryaddress where user_id=#{user_id} and commonly_used=1
+    </select>
+
+    <update id="removeUsersCommonlyUsedAddress" parameterType="Long">
+        UPDATE deliveryaddress
+        SET commonly_used = 0
+        WHERE
+        user_id = #{user_id};
+    </update>
+
+    <insert id="addAddress" parameterType="deliveryAddress">
+        INSERT INTO deliveryaddress (
+            deliveryaddress_id,
+            contacts_name,
+            contacts_phone_num,
+            deliveryaddress,
+            user_id,
+            commonly_used,
+            contacts_sex
+        )
+        VALUES
+            (
+                null ,
+                #{contactsName},
+                #{contactsPhoneNum},
+                #{deliveryaddress},
+                #{userId},
+                #{commonlyUsed},
+                #{contactsSex}
+            )
+    </insert>
+
+    <delete id="removeAddress" parameterType="Long">
+        delete from deliveryaddress where deliveryaddress_id=#{deliveryaddressId}
+    </delete>
+
+    <update id="updateAddress" parameterType="deliveryAddress">
+        UPDATE deliveryaddress
+        SET contacts_name = #{contactsName},
+            contacts_phone_num = #{contactsPhoneNum},
+            deliveryaddress = #{deliveryaddress},
+            user_id = #{userId},
+            commonly_used = #{commonlyUsed},
+            contacts_sex = #{contactsSex}
+        WHERE
+            deliveryaddress_id = #{deliveryaddressId};
+    </update>
+
+
+</mapper>

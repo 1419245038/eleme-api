@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.elemeapi.mapper.OrdersMapper">
+    
+    <insert id="createOrders" parameterType="orders">
+        <selectKey resultType="Long" order="AFTER" keyProperty="orderId">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO `eleme`.`orders` (
+        `order_id`,
+        `user_id`,
+        `business_id`,
+        `deliveryaddress_id`,
+        `order_total_price`,
+        `delivery_price`,
+        `order_stats`,
+        `date`
+        )
+        VALUES
+        (
+        null ,
+        #{userId},
+        #{businessId},
+        #{deliveryaddressId},
+        #{orderTotalPrice},
+        #{deliveryPrice},
+        #{orderStats},
+        #{date}
+        );
+    </insert>
+
+    <update id="pay" parameterType="Long">
+        UPDATE `eleme`.`orders`
+        SET
+            `order_stats` = 1
+        WHERE
+            `order_id` = #{order_id};
+    </update>
+
+    <select id="findOrdersByUserId" parameterType="Long" resultType="map">
+        SELECT
+            order_id,
+            business_name,
+            business_address,
+            order_total_price,
+            delivery_price,
+            order_stats
+        FROM
+            orders,
+            business
+        WHERE
+            orders.business_id = business.business_id
+          AND
+            user_id=#{user_id}
+    </select>
+
+
+</mapper>
