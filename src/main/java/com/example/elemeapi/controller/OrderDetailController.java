@@ -2,8 +2,6 @@ package com.example.elemeapi.controller;
 
 import com.example.elemeapi.entity.OrderDetail;
 import com.example.elemeapi.service.OrderDetailService;
-import com.example.elemeapi.service.OrdersService;
-import com.example.elemeapi.utils.UserThreadLocal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
