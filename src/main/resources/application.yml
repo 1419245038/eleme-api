@@ -1,0 +1,46 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: eleme-api
+  #数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/eleme?serverTimezone=UTC
+    username:
+    password:
+  #Redis
+  redis:
+    host: localhost
+    port: 6379
+
+#下面这些内容是为了让MyBatis映射
+mybatis:
+  configuration:
+    #开启驼峰命名转换
+    map-underscore-to-camel-case: 'true '
+  #指定Mybatis的Mapper文件
+  mapper-locations: classpath:mappers/*xml
+  #指定Mybatis的实体目录
+  type-aliases-package: com.example.elemeapi.entity
+
+logging:
+  level:
+    com:
+      example:
+        elemeapi:
+          mapper: debug
+
+#腾讯云COS相关
+myqcloud:
+  cos:
+    #腾讯云对象存储桶名
+    bucket:
+    #腾讯云对象存储临时秘钥过期时间(单位：秒)
+    durationSeconds: 10
+    #腾讯云对象存储地域
+    region:
+    #腾讯云对象存储永久秘钥
+    tmpSecretId:
+    tmpSecretKey:
+
