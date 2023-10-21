@@ -26,6 +26,7 @@ public class CosController {
         Response credential = cosCredentialService.getCredential();
         COSClient cosClient = COSUtils.createCOSClient(credential);
         COSObjectInputStream cosObjectInputStream = COSUtils.getCOSObjectInputStream(cosClient, key);
+        response.setContentType("image/jpeg");
         int len = 0;
         byte[] bytes = new byte[1024];
         while ((len = cosObjectInputStream.read(bytes)) != -1){
