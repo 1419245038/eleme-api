@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         if (userByName!=null) {
             throw new BussinessException("UE001", "该用户名已存在");
         }
-        user.setUserHeaderPic("/pic/head_pic.jpg");
+        user.setUserHeaderPic("head_pic.jpg");
         user.setDate(new Date());
         return userMapper.addUser(user);
     }
